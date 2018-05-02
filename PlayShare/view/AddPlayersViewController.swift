@@ -61,7 +61,6 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
         cell.textLabel?.text = "Bob"
         players[indexPath.row] = (cell.textLabel?.text!)!
         reload(tableView)
-
         
     }
     
@@ -88,6 +87,9 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
     }
  
  
+    func keyboardDown() {
+        //#warning press anywhere to make the keyboard disappear
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
