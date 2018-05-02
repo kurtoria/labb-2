@@ -10,13 +10,19 @@ import UIKit
 import SpriteKit
 
 class Player: NSObject {
-    let sprite : SKSpriteNode
+    var sprite : SKSpriteNode
     var name : String
     var wonGame : Bool = true
     
     init(sprite : SKSpriteNode, name : String) {
         self.sprite = sprite
         self.name = name
+    }
+    
+    init(name : String) {
+        self.name = name
+        wonGame = false
+        sprite = SKSpriteNode()
     }
     
 }

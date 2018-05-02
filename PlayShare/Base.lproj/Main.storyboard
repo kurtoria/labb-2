@@ -96,7 +96,7 @@
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="25"/>
                                 <state key="normal" title="Start tournament"/>
                                 <connections>
-                                    <segue destination="GOZ-10-kcP" kind="show" id="5At-GW-29h"/>
+                                    <segue destination="GOZ-10-kcP" kind="show" identifier="StartTournament" id="5At-GW-29h"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dA8-5R-leZ">

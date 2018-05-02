@@ -65,8 +65,8 @@
 		6580922C2084C44F00C0B73E /* view */ = {
 			isa = PBXGroup;
 			children = (
-				658091FD2080B3D100C0B73E /* AddPlayersViewController.swift */,
 				658091FB2080B3A100C0B73E /* StartViewController.swift */,
+				658091FD2080B3D100C0B73E /* AddPlayersViewController.swift */,
 				658092252084C3EE00C0B73E /* TournamentViewController.swift */,
 			);
 			path = view;

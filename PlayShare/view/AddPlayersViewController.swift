@@ -15,8 +15,7 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var tableView: UITableView!
     
     
-    //var players : [String] = []
-    var players : [String] = []
+    var players : [Player] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +27,9 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
         if nameInput.text!.isEmpty {
             
         } else {
-            players.append(nameInput.text!)
+            var player = Player(name: nameInput.text!)
+            players.append(player)
         }
-        //nameInput.text
         print(players)
         nameInput.text = ""
         reload(tableView)
@@ -47,19 +46,22 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NameCell")!
         
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "NameCell", for: indexPath)
-        cell.textLabel?.text = players[indexPath.row]
+        cell.textLabel?.text = players[indexPath.row].name
         
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //players[indexPath.row]
-        print("\(indexPath.row) was clicked and the item was \(players[indexPath.row])")
+        print("\(indexPath.row) was clicked and the item was \(players[indexPath.row].name)")
         let cell = tableView.dequeueReusableCell(withIdentifier: "NameCell")!
         
         cell.textLabel?.text = "Bob"
-        players[indexPath.row] = (cell.textLabel?.text!)!
+        
+        //players[indexPath.row] = (cell.textLabel?.text!)!
+        let p = players[indexPath.row]
+        cell.textLabel?.text = p.name
+        
         reload(tableView)
         
     }
@@ -97,14 +99,23 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "StartTournament" {
+            if let tournament = segue.destination as? TournamentViewController{
+                tournament.players = players
+            } else {
+                print("Data not passed")
+            }
+        } else {
+            print("Identifier doesn't match, so no data sent")
+        }
     }
-    */
+    
 
 }
