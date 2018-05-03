@@ -31,6 +31,7 @@ class TournamentViewController: UIViewController {
         setupSKView()
     }
     
+
     func setupSKView() {
         view.addSubview(skkView)
         skkView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -39,7 +40,8 @@ class TournamentViewController: UIViewController {
         skkView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         
         let scene = TournamentScene()
-        scene.scaleMode = .fill
+        //scene.scaleMode = .fill
+        scene.scaleMode = .resizeFill
         skkView.presentScene(scene)
         skkView.ignoresSiblingOrder = true
         scene.backgroundColor = UIColor.white
