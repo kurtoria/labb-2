@@ -27,10 +27,12 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
         if nameInput.text!.isEmpty {
             
         } else {
-            var player = Player(name: nameInput.text!)
+            let player = Player(name: nameInput.text!)
             players.append(player)
+            if let i = players.index(of: player) {
+                print("\(i), added player: \(player.name)")
+            }
         }
-        print(players)
         nameInput.text = ""
         reload(tableView)
     }
