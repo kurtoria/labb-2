@@ -48,10 +48,20 @@ class TournamentScene : SKScene {
  
         //DO THINGS. LOTSA THINGS WHOLE GEEEEMEE
         
+        /*
         if !model.ifOddPlayers(players: model.players.count) {
+            print("Goes into oddplayers")
+            //placeOddRound()
+        }
+        */
+        
+        //#warning fix better condition
+        if model.filteredPlayer.wonGame == false {
+            print("Goes into oddplayers")
             placeOddRound()
         }
     }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
@@ -63,13 +73,34 @@ class TournamentScene : SKScene {
         
     }
     
+    
+    
     func setUpPlayers() {
         for p in model.originalPlayers {
             p.sprite = SKSpriteNode(color: UIColor.lightGray, size: CGSize(width: 100, height: 30))
             addChild(p.sprite)
+            //p.sprite.isUserInteractionEnabled = true
             print("Name: \(p.name)")
         }
     }
+    
+    /*
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("Touch began")
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("Touch ended")
+    }
+ */
+    
+    
+    /*
+    func createSpriteNode(sprite : SKSpriteNode?) {
+        s = SKSpriteNode(color: UIColor.lightGray, size: CGSize(width: 100, height: 30))
+        addChild(s)
+    }
+ */
     
     
   
@@ -199,29 +230,14 @@ class TournamentScene : SKScene {
         
         
     }
+ 
     
     
-    /*
+    
     func createButtons(size : CGSize, pos : CGPoint, xScale : CGFloat, yScale : CGFloat, name : String) {
-        let button = SKSpriteNode(color: UIColor.red, size: size)
-
-        button.position = pos
-        button.xScale = xScale
-        button.yScale = yScale
-        button.zPosition = 1
-        addChild(button)
-        print("Button created")
         
-        let buttonText = SKLabelNode(text: name)
-        buttonText.position = pos
-        button.xScale = xScale
-        button.yScale = yScale
-        buttonText.fontColor = UIColor.black
-        buttonText.fontSize = 5
-        addChild(buttonText)
-        print("ButtonText created")
     }
-    */
+ 
     
     
     /*
