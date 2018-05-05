@@ -19,7 +19,7 @@
 		65A387D32080AF5900C9BB8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A387D12080AF5900C9BB8D /* Main.storyboard */; };
 		65A387D52080AF5B00C9BB8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65A387D42080AF5B00C9BB8D /* Assets.xcassets */; };
 		65A387D82080AF5B00C9BB8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A387D62080AF5B00C9BB8D /* LaunchScreen.storyboard */; };
-		65A596E9209C280E00CEAD83 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A596E8209C280E00CEAD83 /* Button.swift */; };
+		65A596E9209C280E00CEAD83 /* HandleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A596E8209C280E00CEAD83 /* HandleButton.swift */; };
 		65AABAE620933A0900541650 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AABAE520933A0900541650 /* SpriteKit.framework */; };
 		65F63333209704B800A32B13 /* TournamentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F63332209704B800A32B13 /* TournamentManager.swift */; };
 /* End PBXBuildFile section */
@@ -39,7 +39,7 @@
 		65A387D42080AF5B00C9BB8D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65A387D72080AF5B00C9BB8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		65A387D92080AF5B00C9BB8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		65A596E8209C280E00CEAD83 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		65A596E8209C280E00CEAD83 /* HandleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleButton.swift; sourceTree = "<group>"; };
 		65AABAE520933A0900541650 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		65F63332209704B800A32B13 /* TournamentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				659B2A9220877FA40055E50E /* TournamentScene.swift */,
-				65A596E8209C280E00CEAD83 /* Button.swift */,
+				65A596E8209C280E00CEAD83 /* HandleButton.swift */,
 			);
 			path = game;
 			sourceTree = "<group>";
@@ -208,7 +208,7 @@
 				658091FE2080B3D100C0B73E /* AddPlayersViewController.swift in Sources */,
 				658092282084C40900C0B73E /* TournamentModel.swift in Sources */,
 				658091FC2080B3A100C0B73E /* StartViewController.swift in Sources */,
-				65A596E9209C280E00CEAD83 /* Button.swift in Sources */,
+				65A596E9209C280E00CEAD83 /* HandleButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

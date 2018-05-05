@@ -19,14 +19,16 @@ enum Score {
 class Player: NSObject {
     var sprite : SKSpriteNode
     var name : String
-    var wonGame : Bool = true
+    var wonGame : Bool = false
     var score : Score
+    var oddPlayer : Bool
     
     
     init(sprite : SKSpriteNode, name : String) {
         self.sprite = sprite
         self.name = name
         score = .NotPlayedYet
+        oddPlayer = false
     }
     
     init(name : String) {
@@ -34,6 +36,7 @@ class Player: NSObject {
         wonGame = false
         sprite = SKSpriteNode()
         score = .NotPlayedYet
+        oddPlayer = false
     }
     
 }

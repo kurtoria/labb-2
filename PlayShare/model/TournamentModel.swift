@@ -9,78 +9,112 @@
 import UIKit
 
 class TournamentModel: NSObject {
-    //var model : TournamentModel = TournamentModel()
-    //var scene : TournamentScene = TournamentScene()
+    var handleButtons = HandleButton()
     
-    /*
-    var originalPlayers = TournamentViewController.seguedPlayers
-    var players : [Player] = []
-    var winners : [Player] = []
-    var losers : [Player] = []
-    var filteredPlayers : [Player] = []
-    var filteredPlayer = Player(name: "")
-    */
-    
-    //var originalPlayers = TournamentViewController.seguedPlayers
     var originalPlayers : [Player]
     var players : [Player] = []
     var winners : [Player] = []
     var losers : [Player] = []
-    var filteredPlayers : [Player] = []
+    //var filteredPlayers : [Player] = []
     var filteredPlayer = Player(name: "")
-    
-    
-    /*
-    var y0 = 598.0
-    var y1 = 560.0
-    var evenY : Double = 0.0
-    var oddY : Double = 0.0
-    */
     var oddRoundPlayers : [Player] = []
+    var firstRound = true
     
-    
-
     init(players : [Player]) {
         originalPlayers = players
     }
+    
+    //Returns true if it is first round
+    func isFirstRound() -> Bool {
+        if firstRound {
+            return true
+        } else {
+            return false
+        }
+    }
 
-    /*
-    func placePlayers(y0 : Double, y1 : Double) {
-        var i = 0
-        for (index, p) in players.enumerated() {
-            let sum = index % 2
-            
-            if i == 0 {
-                placeSinglePlayer(yPos: y0, p: p, index: index)
-                i += 1
-                print("I is: \(i)")
-            } else if i == 1 {
-                placeSinglePlayer(yPos: y1, p: p, index: index)
-                i += 1
+    //-------------------Connect players between each other------------------------------
+    
+    
+    func connectTwoPlayers(p1 : Player, p2 : Player) -> [Player] {
+        let connectedPlayers = [p1, p2]
+        print("Number in connected players arrays: \(connectedPlayers.count), 1st: \(connectedPlayers[0].name), 2nd: \(connectedPlayers[1].name)")
+        return connectedPlayers
+    }
+ 
+    
+    func connectTwoPlayerss(i : Int) -> [Player] {
+        var coupled : [Player] = []
+        if i % 2 == 0 {
+            coupled = [players[i], players[i + 1]]
+            print("Array count: \(coupled.count), \([players[i].name), \(players[i + 1].name)")
+        } else {
+            coupled = [players[i - 1], players[i]]
+            print("Array count: \(coupled.count), \([players[i - 1].name), \(players[i].name)")
+        }
+        return coupled
+    }
+    
+    
+    //------------------------If one player pressed-------------------------
+    
+    
+    func addPlayerToWinner(p : Player) {
+        winners.append(p)
+    }
+    
+    func addPlayerToLosers(p : Player) {
+        losers.append(p)
+    }
+
+    func makePlayerUnavailable(array : [Player], player : Player) {
+        for p in array {
+            if p.wonGame {
+                addPlayerToWinner(p: p)
+                //checkMoved(array: players, winArray: winners)
+                print("Winner: \(winners.count), name: \(p.name)")
             } else {
-                print("Goes into else")
-                if index % 2 == 0 {
-                    
-                    print("Sum: \(sum)")
-                    placeSinglePlayer(yPos: evenY, p: p, index: index)
-                    print("Number in if modulus: \(index)")
-                    evenY = evenY - 95
-                } else {
-                    print("Sum: \(sum)")
-                    placeSinglePlayer(yPos: oddY, p: p, index: index)
-                    print("Number in else else: \(index)")
-                    oddY = oddY - 95
-                }
+                //Vad som händer med den andra spelaren som inte blev nertryckt
+                addPlayerToLosers(p: p)
+                var button = HandleButton()
+                button.disableOrEnableButton(player: p, condition: false)
+                
+                print("Loser: \(losers.count), name: \(p.name)")
             }
         }
     }
     
-    func placeSinglePlayer(yPos : Double, p : Player, index : Int) {
-        p.sprite.position = CGPoint(x: 60.0, y: yPos)
-        scene.createTextForButtons(name: p.name, pos: p.sprite.position)
-        print("\(index), Position for \(p.name) is \(p.sprite.position).")
+    func checkMoved(array : [Player], winArray : [Player]) {
+        let result = winArray.count * 2
+        if array.count == result {
+            print("winArray*2: \((winArray.count * 2)) = array.count: \(array.count)")
+            
+            //#warning put in movement
+            handleButtons.disableOrEnableButtons(array: players, condition: false)
+            moveArrays()
+            
+            
+            
+            
+        } else {
+            print("array.count ain't the same as winArray.count * 2")
+            print("Result: \((winArray.count * 2)) = \(array.count)")
+        }
     }
-    */
+    
+    func moveArrays() {
+        players = []
+        for p in winners {
+            players.append(p)
+            print("PlayerArray: \(players.count)")
+        }
+        winners = []
+        print("Winners: \(winners.count)")
+        
+        
+    }
+    
+    //--------------------ODD funcs-------------------------------------------
     
     func getRandomPlayer(array : [Player]) -> Player {
         let randomIndex = Int(arc4random_uniform(UInt32(array.count)))
@@ -102,7 +136,8 @@ class TournamentModel: NSObject {
 
             if let last = originalPlayers.last {
                 filteredPlayer = last
-                print("Filtered player: \(filteredPlayer.name)")
+                filteredPlayer.oddPlayer = true
+                print("Filtered player: \(filteredPlayer.name), odd: \(filteredPlayer.oddPlayer)")
             }
             originalPlayers.remove(at: originalPlayers.endIndex - 1)
         }
@@ -111,10 +146,18 @@ class TournamentModel: NSObject {
     }
     
     func connectOddRound(randomPlayer : Player, filteredPlayer : Player) {
-        oddRoundPlayers = [randomPlayer, filteredPlayer]
+        oddRoundPlayers = connectTwoPlayers(p1: randomPlayer, p2: filteredPlayer)
         
     }
     
-    
-    
+    func moveOddArrays() {
+        players = []
+        for p in winners {
+            players.append(p)
+            print("PlayerArray: \(players.count)")
+        }
+        winners = []
+        print("Winners in oddMove: \(winners.count)")
+        
+    }
 }

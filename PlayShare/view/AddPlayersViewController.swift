@@ -108,14 +108,23 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "StartTournament" {
-            if let tournament = segue.destination as? TournamentViewController{
-                tournament.players = players
+        if players.count > 1 {
+            if segue.identifier == "StartTournament" {
+            
+                if let tournament = segue.destination as? TournamentViewController{
+                    
+                    tournament.players = players
+                
+                } else {
+                    print("Data not passed")
+                }
+            
             } else {
-                print("Data not passed")
+                print("Identifier doesn't match, so no data sent")
+                
             }
         } else {
-            print("Identifier doesn't match, so no data sent")
+            print("Too few players")
         }
     }
     

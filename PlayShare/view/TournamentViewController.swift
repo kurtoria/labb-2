@@ -47,6 +47,7 @@ class TournamentViewController: UIViewController {
         scene.backgroundColor = UIColor.white
     }
     
+    /*
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             tar = touch.location(in: view)
@@ -55,6 +56,7 @@ class TournamentViewController: UIViewController {
             }
         }
     }
+    */
     
 
     override func didReceiveMemoryWarning() {
