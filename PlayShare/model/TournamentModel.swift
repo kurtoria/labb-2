@@ -38,7 +38,7 @@ class TournamentModel: NSObject {
     
     func connectTwoPlayers(p1 : Player, p2 : Player) -> [Player] {
         let connectedPlayers = [p1, p2]
-        print("Number in connected players arrays: \(connectedPlayers.count), 1st: \(connectedPlayers[0].name), 2nd: \(connectedPlayers[1].name)")
+        print("connectTwoPlayers: Number in connected players arrays: \(connectedPlayers.count), 1st: \(connectedPlayers[0].name), 2nd: \(connectedPlayers[1].name)")
         return connectedPlayers
     }
  
@@ -47,10 +47,10 @@ class TournamentModel: NSObject {
         var coupled : [Player] = []
         if i % 2 == 0 {
             coupled = [players[i], players[i + 1]]
-            print("Array count: \(coupled.count), \([players[i].name), \(players[i + 1].name)")
+            print("connectTwoPlayerss: Array count: \(coupled.count), names: \([players[i].name), \(players[i + 1].name)")
         } else {
             coupled = [players[i - 1], players[i]]
-            print("Array count: \(coupled.count), \([players[i - 1].name), \(players[i].name)")
+            print("connectTwoPlayerss: Array count: \(coupled.count), names: \([players[i - 1].name), \(players[i].name)")
         }
         return coupled
     }
@@ -68,18 +68,23 @@ class TournamentModel: NSObject {
     }
 
     func makePlayerUnavailable(array : [Player], player : Player) {
+        for w in winners {
+            print("makePlayerUnavailable: name in winnerArray: \(w.name)")
+        }
         for p in array {
             if p.wonGame {
                 addPlayerToWinner(p: p)
                 //checkMoved(array: players, winArray: winners)
-                print("Winner: \(winners.count), name: \(p.name)")
+                for w in winners {
+                    print("makePlayerUnavailable: makePlayerUnavailable: WinnerCount: \(winners.count), name: \(w.name)")
+                }
             } else {
                 //Vad som händer med den andra spelaren som inte blev nertryckt
                 addPlayerToLosers(p: p)
                 var button = HandleButton()
                 button.disableOrEnableButton(player: p, condition: false)
                 
-                print("Loser: \(losers.count), name: \(p.name)")
+                print("makePlayerUnavailable: makePlayerUnavailable: LoserCount: \(losers.count), name: \(p.name)")
             }
         }
     }
@@ -87,7 +92,7 @@ class TournamentModel: NSObject {
     func checkMoved(array : [Player], winArray : [Player]) {
         let result = winArray.count * 2
         if array.count == result {
-            print("winArray*2: \((winArray.count * 2)) = array.count: \(array.count)")
+            print("checkMoved: winArray*2: \((winArray.count * 2)) = array.count: \(array.count)")
             
             //#warning put in movement
             handleButtons.disableOrEnableButtons(array: players, condition: false)
@@ -97,8 +102,8 @@ class TournamentModel: NSObject {
             
             
         } else {
-            print("array.count ain't the same as winArray.count * 2")
-            print("Result: \((winArray.count * 2)) = \(array.count)")
+            print("checkMoved: array.count ain't the same as winArray.count * 2")
+            print("checkMoved: Result: \((winArray.count * 2)) = \(array.count)")
         }
     }
     
@@ -106,10 +111,10 @@ class TournamentModel: NSObject {
         players = []
         for p in winners {
             players.append(p)
-            print("PlayerArray: \(players.count)")
+            print("moveArrays: PlayerArray: \(players.count)")
         }
         winners = []
-        print("Winners: \(winners.count)")
+        print("moveArrays: Winners: \(winners.count)")
         
         
     }
@@ -118,7 +123,7 @@ class TournamentModel: NSObject {
     
     func getRandomPlayer(array : [Player]) -> Player {
         let randomIndex = Int(arc4random_uniform(UInt32(array.count)))
-        print("Random player: \(array[randomIndex].name)")
+        print("getRandomPlayer: Random player: \(array[randomIndex].name)")
         return array[randomIndex]
     }
     
@@ -132,17 +137,17 @@ class TournamentModel: NSObject {
     
     func oddOrNot() {
         if !ifOddPlayers(players: originalPlayers.count) {
-            print("Not even!")
+            print("oddOrNot: Not even!")
 
             if let last = originalPlayers.last {
                 filteredPlayer = last
                 filteredPlayer.oddPlayer = true
-                print("Filtered player: \(filteredPlayer.name), odd: \(filteredPlayer.oddPlayer)")
+                print("oddOrNot: Filtered player: \(filteredPlayer.name), odd: \(filteredPlayer.oddPlayer)")
             }
             originalPlayers.remove(at: originalPlayers.endIndex - 1)
         }
         players = originalPlayers
-        print("OriginalPlayers length: \(originalPlayers.count)")
+        print("oddOrNot: OriginalPlayers length: \(originalPlayers.count)")
     }
     
     func connectOddRound(randomPlayer : Player, filteredPlayer : Player) {
@@ -154,10 +159,10 @@ class TournamentModel: NSObject {
         players = []
         for p in winners {
             players.append(p)
-            print("PlayerArray: \(players.count)")
+            print("moveOddArrays: PlayerArray: \(players.count)")
         }
         winners = []
-        print("Winners in oddMove: \(winners.count)")
+        print("moveOddArrays: Winners in oddMove: \(winners.count)")
         
     }
 }

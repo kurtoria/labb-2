@@ -23,7 +23,6 @@ class Player: NSObject {
     var score : Score
     var oddPlayer : Bool
     
-    
     init(sprite : SKSpriteNode, name : String) {
         self.sprite = sprite
         self.name = name

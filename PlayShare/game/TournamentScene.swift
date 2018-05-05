@@ -27,7 +27,7 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         
         if model.isFirstRound() {
             model.firstRound = false
-            print("Number of players in TournamentScene: \(model.originalPlayers.count)")
+            print("didMove: Number of players in TournamentScene: \(model.originalPlayers.count)")
             evenY = y0 - 95
             oddY = y1 - 95
             
@@ -35,7 +35,7 @@ class TournamentScene : SKScene, HandleButtonDelegate {
             model.originalPlayers.shuffle()
             setUpPlayers(array: model.originalPlayers)
             model.oddOrNot()
-            print("Players length: \(model.players.count)")
+            print("didMove: Players length: \(model.players.count)")
             
             //place first players
             placePlayers(y0: y0, y1: y1, x: x01, array: model.players)
@@ -56,10 +56,10 @@ class TournamentScene : SKScene, HandleButtonDelegate {
     
     
     func startNewRound() {
-        print("Goes into new round")
+        print("startNewRound: Goes into new round")
         //model.moveArrays()
         setUpPlayers(array: model.players)
-        print("Players count: \(model.players.count)")
+        print("startNewRound: Players count: \(model.players.count)")
         x01 = x01 + 110
         placePlayers(y0: y0, y1: y1, x: x01, array: model.players)
     }
@@ -71,7 +71,8 @@ class TournamentScene : SKScene, HandleButtonDelegate {
             p.sprite.isUserInteractionEnabled = true
             p.wonGame = false
             p.oddPlayer = false
-            print("Name: \(p.name)")
+            print("setUpPlayers: Name: \(p.name)")
+            
         }
     }
     
@@ -83,12 +84,12 @@ class TournamentScene : SKScene, HandleButtonDelegate {
             if i == 0 {
                 placeFirstRoundPlayer(yPos: y0, xPos: x, p: p, index: index)
                 i += 1
-                print("I is: \(i)")
+                //print("I is: \(i)")
             } else if i == 1 {
                 placeFirstRoundPlayer(yPos: y1, xPos: x, p: p, index: index)
                 i += 1
             } else {
-                //print("Goes into else")
+                print("placePlayers: Goes into else")
                 placeRest(index: index, /*sum: sum,*/ x: x, p: p)
                 /*
                 if index % 2 == 0 {
@@ -109,17 +110,17 @@ class TournamentScene : SKScene, HandleButtonDelegate {
     }
     
     func placeRest(index : Int, /*sum : Int,*/ x : Double, p : Player) {
-        print("Goes into else")
+        
         if index % 2 == 0 {
             
             //print("Sum: \(sum)")
             placeFirstRoundPlayer(yPos: evenY, xPos: x, p: p, index: index)
-            print("Number in if modulus: \(index)")
+            print("placeRest: Number in if modulus: \(index)")
             evenY = evenY - 95
         } else {
             //print("Sum: \(sum)")
             placeFirstRoundPlayer(yPos: oddY, xPos: x, p: p, index: index)
-            print("Number in else else: \(index)")
+            print("placeRest: Number in else else: \(index)")
             oddY = oddY - 95
         }
     }
@@ -136,7 +137,7 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         //var button = HandleButton()
         //button.createTextForButtons(name: p.name, pos: p.sprite.position)
         createTextForButtons(name: p.name, pos: p.sprite.position)
-        print("\(index), Position for \(p.name) is \(p.sprite.position).")
+        print("placeSinglePlayer: \(index), Position for \(p.name) is \(p.sprite.position).")
     }
     
     //--------------------ODD funcs-------------------------------------------
@@ -163,22 +164,22 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         setUpPlayers(array: /*model.oddRoundPlayers*/ model.players)
         
         for p in model.players {
-            print("VIKTIGT, name: \(p.name), PlayersArray.count: \(model.players.count)")
+            print("setUpOddPlayer: VIKTIGT, name: \(p.name), PlayersArray.count: \(model.players.count)")
         }
         for p in model.oddRoundPlayers {
-            print("VIKTIGT, name: \(p.name), OddArray.count: \(model.oddRoundPlayers.count)")
+            print("setUpOddPlayer: VIKTIGT, name: \(p.name), OddArray.count: \(model.oddRoundPlayers.count)")
         }
         for p in model.winners {
-            print("VIKTIGT, name: \(p.name), WinnersArray.count: \(model.winners.count)")
+            print("setUpOddPlayer: VIKTIGT, name: \(p.name), WinnersArray.count: \(model.winners.count)")
         }
         for p in model.losers {
-            print("VIKTIGT, name: \(p.name), LoserArray.count: \(model.losers.count)")
+            print("setUpOddPlayer: VIKTIGT, name: \(p.name), LoserArray.count: \(model.losers.count)")
         }
         
         model.winners = []
         
         for p in model.winners {
-            print("VIKTIGT, name: \(p.name), WinnersArray.count: \(model.winners.count)")
+            print("setUpOddPlayer: VIKTIGT, name: \(p.name), WinnersArray.count: \(model.winners.count)")
         }
         
         //model.filteredPlayer.oddPlayer = false
@@ -194,7 +195,7 @@ class TournamentScene : SKScene, HandleButtonDelegate {
     func placeOddRound() {
         model.filteredPlayer.sprite.isHidden = false
         for (index, p) in model.oddRoundPlayers.enumerated() {
-            print("\(index), Odd Round players name: \(p.name)")
+            print("placeOddRound: \(index), Odd Round players name: \(p.name)")
             //placeSinglePlayer(xPos: x01 + 120.0, yPos: y0, p: p, index: index)
             
             //placeSinglePlayer(xPos: x01, yPos: evenY - 95, p: p, index: index)
@@ -212,7 +213,7 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         let buttonText = SKLabelNode(fontNamed: "Arial")
         buttonText.text = name
         buttonText.fontSize = 20
-        buttonText.fontColor = SKColor.black
+        buttonText.fontColor = SKColor.white
         buttonText.position = pos
         buttonText.position.y = newPos
         self.addChild(buttonText)
@@ -221,30 +222,35 @@ class TournamentScene : SKScene, HandleButtonDelegate {
     
     //MARK: - HandleButtonDelegate
     func spriteNodeButtonPressed(_ button: HandleButton) {
-        
-        print("We are in the scene")
-        print("Player pressed: ")
+        print("spriteNodeButtonPressed: We are in the scene")
+        for w in model.winners {
+            print("spriteNodeButtonPressed: winner.count: \(model.winners.count), and name: \(w.name)")
+        }
         for p in model.players {
             if button.position == p.sprite.position {
                 print("Same pos for \(button.position) and \(p.name)")
                 p.wonGame = true
                 if let a = model.players.index(of: p) {
+                    print("spriteNodeButtonPressed: name: \(p.name), model.players.index: \(a)")
                     let array = model.connectTwoPlayerss(i: a)
                     model.makePlayerUnavailable(array: array, player: p)
                     //model.checkMoved(array: model.players, winArray: model.winners)
                 }
                 //model.addPlayerToWinner(p: p)
-                print("Player won game: \(p.wonGame)")
+                print("spriteNodeButtonPressed: Player \(p.name) won game: \(p.wonGame)")
             } else {
-                print("Not same position")
+                print("spriteNodeButtonPressed: Not same position for \(p.name)")
             }
             
-            
+            print("spriteNodeButtonPressed: model.players.count: \(model.players.count) == model.winners.count * 2: \(model.winners.count * 2) ")
+
             if model.players.count == model.winners.count * 2 {
                 button.disableOrEnableButtons(array: model.players, condition: false)
+                button.alpha = 1.0
+                button.changeColorAllButtons(players: model.players, color: UIColor(red: 0/255.0, green: 174/255.0, blue: 191/255.0, alpha: 0.8))
                 
                 if model.filteredPlayer.oddPlayer == true {
-                    print("Status filteredPlayer.oddPlayer: \(model.filteredPlayer.oddPlayer)")
+                    print("spriteNodeButtonPressed: Status filteredPlayer.oddPlayer: \(model.filteredPlayer.oddPlayer)")
                     
                     setUpOddPlayer()
                     placeOddRound()
@@ -253,7 +259,7 @@ class TournamentScene : SKScene, HandleButtonDelegate {
                     if model.players.count > 1 {
                         startNewRound()
                     } else {
-                        print("YOU WON U VITCH")
+                        print("spriteNodeButtonPressed: YOU WON U VITCH")
                     }
                 }
             }
