@@ -22,6 +22,8 @@ class TournamentScene : SKScene, HandleButtonDelegate {
     var evenY : Double = 0.0
     var oddY : Double = 0.0
     var tempWinners : [Player] = []
+    var quitButton = HandleButton()
+    var quitButtonLabel : SKLabelNode!
    
     override func didMove(to view: SKView) {
         y0 = 598.0
@@ -30,11 +32,14 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         evenY = 0.0
         oddY = 0.0
         
+        
+        
         if originalPlayers.isEmpty {
             originalPlayers = getPlayersReturn()
         }
         
         setupCameraNode()
+        
         if model.isFirstRound() {
             setUpFirstRound()
         }
@@ -222,15 +227,38 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         button.changeColorAllButtons(players: model.players, color: UIColor(red: 0/255.0, green: 174/255.0, blue: 191/255.0, alpha: 0.8))
     }
     
-    //---------------------------------------Other functions---------------------------------------------------
+    /*
+    func setUpQuitButtonLabel() {
+        quitButtonLabel = SKLabelNode(fontNamed: "Arial")
+        quitButtonLabel.text = "000"
+        quitButtonLabel.color = UIColor.black
+        quitButtonLabel.position = CGPoint(x: 66, y: model.players[0].sprite.position.x)
+        self.camera?.addChild(quitButtonLabel)
+    }
     
-    //Handles position of camera
-    override func update(_ currentTime: TimeInterval) {
-        super.update(currentTime)
-        if let camera = cam {
-            camera.position = upperCenterPoint
+    //Position: (86.5, 362.999938964844)
+    //Position: (96.9999923706055, 276.499969482422)
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            if parent != nil {
+                self.touchDown(atPoint: t .location(in: parent!))
+            }
         }
     }
+    
+    func touchDown(atPoint pos : CGPoint) {
+        alpha = 0.5
+        if contains(pos) {
+            print("Position: \(pos)")
+        }
+    }
+ 
+    */
+    
+    //---------------------------------------Play again or quit-funcs---------------------------------------------------
+
     
     // play again with same players.
     func playAgain() {
@@ -239,7 +267,7 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         UIApplication.topViewController()?.present(newViewController, animated: true, completion: nil)
     }
     
-    //Goes back to startview. #NOT DONE
+    //Goes back to startview.
     func backToStart() {
         let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Start")
         UIApplication.topViewController()?.present(newViewController, animated: true, completion: nil)
@@ -269,6 +297,16 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         alertController.addAction(yesButton)
         alertController.addAction(noButton)
         self.viewController.present(alertController, animated: true, completion: nil)
+    }
+    
+    //---------------------------------------Other functions---------------------------------------------------
+    
+    //Handles position of camera
+    override func update(_ currentTime: TimeInterval) {
+        super.update(currentTime)
+        if let camera = cam {
+            camera.position = upperCenterPoint
+        }
     }
 }
 

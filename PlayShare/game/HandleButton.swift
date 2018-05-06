@@ -43,6 +43,7 @@ class HandleButton: SKSpriteNode {
         alpha = 0.5
         if contains(pos) {
             delegate?.spriteNodeButtonPressed(self)
+            print("Position: \(pos)")
         }
     }
     
