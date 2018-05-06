@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6526DA37209B78EC001D0A61 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6526DA36209B78EC001D0A61 /* ArrayExtension.swift */; };
+		6526DA37209B78EC001D0A61 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6526DA36209B78EC001D0A61 /* Extensions.swift */; };
 		658091FC2080B3A100C0B73E /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658091FB2080B3A100C0B73E /* StartViewController.swift */; };
 		658091FE2080B3D100C0B73E /* AddPlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658091FD2080B3D100C0B73E /* AddPlayersViewController.swift */; };
 		658092002080B66500C0B73E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658091FF2080B66500C0B73E /* Player.swift */; };
@@ -25,7 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6526DA36209B78EC001D0A61 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		6526DA36209B78EC001D0A61 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		658091FB2080B3A100C0B73E /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		658091FD2080B3D100C0B73E /* AddPlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayersViewController.swift; sourceTree = "<group>"; };
 		658091FF2080B66500C0B73E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 				658092272084C40900C0B73E /* TournamentModel.swift */,
 				658092292084C41F00C0B73E /* SaveTournamentModel.swift */,
 				658091FF2080B66500C0B73E /* Player.swift */,
-				6526DA36209B78EC001D0A61 /* ArrayExtension.swift */,
+				6526DA36209B78EC001D0A61 /* Extensions.swift */,
 				65F63332209704B800A32B13 /* TournamentManager.swift */,
 			);
 			path = model;
@@ -203,7 +203,7 @@
 				658092002080B66500C0B73E /* Player.swift in Sources */,
 				65A387CE2080AF5900C9BB8D /* AppDelegate.swift in Sources */,
 				659B2A9320877FA40055E50E /* TournamentScene.swift in Sources */,
-				6526DA37209B78EC001D0A61 /* ArrayExtension.swift in Sources */,
+				6526DA37209B78EC001D0A61 /* Extensions.swift in Sources */,
 				6580922A2084C41F00C0B73E /* SaveTournamentModel.swift in Sources */,
 				658091FE2080B3D100C0B73E /* AddPlayersViewController.swift in Sources */,
 				658092282084C40900C0B73E /* TournamentModel.swift in Sources */,

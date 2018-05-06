@@ -11,57 +11,54 @@ import SpriteKit
 import GameplayKit
 
 class TournamentScene : SKScene, HandleButtonDelegate {
-    
+    var viewController : UIViewController!
     var originalPlayers = TournamentViewController.seguedPlayers
     var model : TournamentModel = TournamentModel(players: TournamentViewController.seguedPlayers)
-    var y0 = 598.0
-    var y1 = 560.0
-    var x01 = 60.0
-    //var x0 = 0.0
-    //var x1 = 0.0
+    var cam : SKCameraNode?
+    var upperCenterPoint : CGPoint = CGPoint(x: 0.0, y: 0.0)
+    var y0 = 0.0
+    var y1 = 0.0
+    var x01 = 0.0
     var evenY : Double = 0.0
     var oddY : Double = 0.0
-    
-    
+    var tempWinners : [Player] = []
+   
     override func didMove(to view: SKView) {
+        y0 = 598.0
+        y1 = 560.0
+        x01 = 60.0
+        evenY = 0.0
+        oddY = 0.0
         
+        if originalPlayers.isEmpty {
+            originalPlayers = getPlayersReturn()
+        }
+        
+        setupCameraNode()
         if model.isFirstRound() {
-            model.firstRound = false
-            print("didMove: Number of players in TournamentScene: \(model.originalPlayers.count)")
-            evenY = y0 - 95
-            oddY = y1 - 95
-            
-            
-            model.originalPlayers.shuffle()
-            setUpPlayers(array: model.originalPlayers)
-            model.oddOrNot()
-            print("didMove: Players length: \(model.players.count)")
-            
-            //place first players
-            placePlayers(y0: y0, y1: y1, x: x01, array: model.players)
-     
-            //DO THINGS. LOTSA THINGS WHOLE GEEEEMEE
-            //model.connectAllPlayers()
-            model.filteredPlayer.sprite.isHidden = true
-            }
-        /*
-            if model.filteredPlayer.oddPlayer == true {
-                print("Goes into oddplayers")
-                //placeOddRound()
-                setUpOddPlayer()
-                model.filteredPlayer.sprite.isHidden = true
-            }
-        */
+            setUpFirstRound()
+        }
     }
     
+    //---------------------------------------Set up's---------------------------------------------------
     
-    func startNewRound() {
-        print("startNewRound: Goes into new round")
-        //model.moveArrays()
-        setUpPlayers(array: model.players)
-        print("startNewRound: Players count: \(model.players.count)")
-        x01 = x01 + 110
+    //Sets up camera node that helps with placing center in rounds
+    func setupCameraNode() {
+        cam = SKCameraNode()
+        self.camera = cam
+        self.addChild(cam!)
+    }
+    
+    //Set up first round with set x and y values
+    func setUpFirstRound() {
+        model.firstRound = false
+        evenY = y0 - 95
+        oddY = y1 - 95
+        model.originalPlayers.shuffle()
+        setUpPlayers(array: model.originalPlayers)
+        model.oddOrNot(array: model.originalPlayers)
         placePlayers(y0: y0, y1: y1, x: x01, array: model.players)
+        model.filteredPlayer.sprite.isHidden = true
     }
     
     func setUpPlayers(array : [Player]) {
@@ -72,133 +69,85 @@ class TournamentScene : SKScene, HandleButtonDelegate {
             p.wonGame = false
             p.oddPlayer = false
             print("setUpPlayers: Name: \(p.name)")
-            
         }
+    }
+
+    func startNewRound() {
+        model.emptyWinners()
+        setUpPlayers(array: model.players)
+        model.oddOrNot(array: model.players)
+        x01 = x01 + 110
+        evenY = y0 - 95
+        oddY = y1 - 95
+        placePlayers(y0: y0, y1: y1, x: x01, array: model.players)
+    }
+    
+    //-------------------------------------Placing players---------------------------------------------------
+    
+    func setUpperPos() {
+        let upperPlayerPoint = CGPoint(x: model.players[0].sprite.position.x, y: model.players[0].sprite.position.y - 270)
+        upperCenterPoint = upperPlayerPoint
     }
     
     func placePlayers(y0 : Double, y1 : Double, x : Double, array: [Player]) {
         var i = 0
-        for (index, p) in array.enumerated()/*model.players.enumerated()*/ {
-            let sum = index % 2
-            
+        for (index, p) in array.enumerated() {
             if i == 0 {
                 placeFirstRoundPlayer(yPos: y0, xPos: x, p: p, index: index)
+                setUpperPos()
                 i += 1
-                //print("I is: \(i)")
             } else if i == 1 {
                 placeFirstRoundPlayer(yPos: y1, xPos: x, p: p, index: index)
                 i += 1
             } else {
-                print("placePlayers: Goes into else")
-                placeRest(index: index, /*sum: sum,*/ x: x, p: p)
-                /*
-                if index % 2 == 0 {
-                    
-                    print("Sum: \(sum)")
-                    placeFirstRoundPlayer(yPos: evenY, xPos: x, p: p, index: index)
-                    print("Number in if modulus: \(index)")
-                    evenY = evenY - 95
-                } else {
-                    print("Sum: \(sum)")
-                    placeFirstRoundPlayer(yPos: oddY, xPos: x, p: p, index: index)
-                    print("Number in else else: \(index)")
-                    oddY = oddY - 95
-                }
-                */
+                placeRest(index: index, x: x, p: p)
             }
         }
     }
     
-    func placeRest(index : Int, /*sum : Int,*/ x : Double, p : Player) {
+    func placeRest(index : Int, x : Double, p : Player) {
         
         if index % 2 == 0 {
-            
-            //print("Sum: \(sum)")
             placeFirstRoundPlayer(yPos: evenY, xPos: x, p: p, index: index)
-            print("placeRest: Number in if modulus: \(index)")
             evenY = evenY - 95
         } else {
-            //print("Sum: \(sum)")
             placeFirstRoundPlayer(yPos: oddY, xPos: x, p: p, index: index)
-            print("placeRest: Number in else else: \(index)")
             oddY = oddY - 95
         }
     }
     
     func placeFirstRoundPlayer(yPos : Double, xPos : Double, p : Player, index : Int) {
-        //p.sprite.position = CGPoint(x: 60.0, y: yPos)
-        //createTextForButtons(name: p.name, pos: p.sprite.position)
-        //print("\(index), Position for \(p.name) is \(p.sprite.position).")
         placeSinglePlayer(xPos: xPos, yPos: yPos, p: p, index: index)
     }
     
     func placeSinglePlayer(xPos : Double, yPos : Double, p : Player, index : Int) {
         p.sprite.position = CGPoint(x: xPos, y: yPos)
-        //var button = HandleButton()
-        //button.createTextForButtons(name: p.name, pos: p.sprite.position)
         createTextForButtons(name: p.name, pos: p.sprite.position)
-        print("placeSinglePlayer: \(index), Position for \(p.name) is \(p.sprite.position).")
     }
     
-    //--------------------ODD funcs-------------------------------------------
+    //---------------------------------------ODD funcs---------------------------------------------------
     
+    //Sets upp odd/random player and random player
     func setUpOddPlayer() {
-        
+        model.filteredPlayer.oddPlayer = false
         model.connectOddRound(randomPlayer: model.getRandomPlayer(array: model.winners), filteredPlayer: model.filteredPlayer)
-        /*
-        for p in model.players {
-            p.wonGame = false
-        }
-        */
-        model.players = []
-        print("setUpOddPlayer, model.player.count: \(model.players.count)")
-        model.players = model.oddRoundPlayers
-        for p in model.players {
-            print("setUpOddPlayer, model.player.count: \(model.players.count), name: \(p.name)")
-        }
-        //model.oddRoundPlayers = []
-        print("setUpOddPlayer, oddRoundPlayers: \(model.players.count)")
-
-
-        
-        setUpPlayers(array: /*model.oddRoundPlayers*/ model.players)
-        
-        for p in model.players {
-            print("setUpOddPlayer: VIKTIGT, name: \(p.name), PlayersArray.count: \(model.players.count)")
-        }
-        for p in model.oddRoundPlayers {
-            print("setUpOddPlayer: VIKTIGT, name: \(p.name), OddArray.count: \(model.oddRoundPlayers.count)")
-        }
-        for p in model.winners {
-            print("setUpOddPlayer: VIKTIGT, name: \(p.name), WinnersArray.count: \(model.winners.count)")
-        }
-        for p in model.losers {
-            print("setUpOddPlayer: VIKTIGT, name: \(p.name), LoserArray.count: \(model.losers.count)")
-        }
-        
-        model.winners = []
-        
-        for p in model.winners {
-            print("setUpOddPlayer: VIKTIGT, name: \(p.name), WinnersArray.count: \(model.winners.count)")
-        }
-        
-        //model.filteredPlayer.oddPlayer = false
-        //Ta bort filtered player
-        /*
         model.players = []
         model.players = model.oddRoundPlayers
-        model.oddRoundPlayers = []
-         */
-        
+        setUpPlayers(array: model.players)
+        print("SETUPODDPLAYER: winners..count: \(model.winners.count)")
+        if model.winners.count > 1 {
+            for w in model.winners {
+                tempWinners.append(w)
+            }
+        } else {
+            model.winners = []
+        }
     }
     
+    //Places odd round
     func placeOddRound() {
         model.filteredPlayer.sprite.isHidden = false
         for (index, p) in model.oddRoundPlayers.enumerated() {
-            print("placeOddRound: \(index), Odd Round players name: \(p.name)")
-            //placeSinglePlayer(xPos: x01 + 120.0, yPos: y0, p: p, index: index)
-            
-            //placeSinglePlayer(xPos: x01, yPos: evenY - 95, p: p, index: index)
             y0 = y1
             placeRest(index: index, x: x01, p: p)
             model.players.append(p)
@@ -206,8 +155,9 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         model.oddRoundPlayers = []
     }
     
-    //-----------------Buttons-----------------------------------------------
+    //---------------------------------------Buttons---------------------------------------------------
     
+    //Creates text for the buttons
     func createTextForButtons(name : String, pos : CGPoint) {
         let newPos = pos.y - 6
         let buttonText = SKLabelNode(fontNamed: "Arial")
@@ -217,54 +167,108 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         buttonText.position = pos
         buttonText.position.y = newPos
         self.addChild(buttonText)
-        
     }
     
     //MARK: - HandleButtonDelegate
     func spriteNodeButtonPressed(_ button: HandleButton) {
-        print("spriteNodeButtonPressed: We are in the scene")
-        for w in model.winners {
-            print("spriteNodeButtonPressed: winner.count: \(model.winners.count), and name: \(w.name)")
-        }
         for p in model.players {
             if button.position == p.sprite.position {
                 print("Same pos for \(button.position) and \(p.name)")
                 p.wonGame = true
-                if let a = model.players.index(of: p) {
-                    print("spriteNodeButtonPressed: name: \(p.name), model.players.index: \(a)")
-                    let array = model.connectTwoPlayerss(i: a)
-                    model.makePlayerUnavailable(array: array, player: p)
-                    //model.checkMoved(array: model.players, winArray: model.winners)
-                }
-                //model.addPlayerToWinner(p: p)
-                print("spriteNodeButtonPressed: Player \(p.name) won game: \(p.wonGame)")
-            } else {
-                print("spriteNodeButtonPressed: Not same position for \(p.name)")
+                matchingPosAndPlayer(p: p)
             }
-            
-            print("spriteNodeButtonPressed: model.players.count: \(model.players.count) == model.winners.count * 2: \(model.winners.count * 2) ")
-
-            if model.players.count == model.winners.count * 2 {
-                button.disableOrEnableButtons(array: model.players, condition: false)
-                button.alpha = 1.0
-                button.changeColorAllButtons(players: model.players, color: UIColor(red: 0/255.0, green: 174/255.0, blue: 191/255.0, alpha: 0.8))
-                
-                if model.filteredPlayer.oddPlayer == true {
-                    print("spriteNodeButtonPressed: Status filteredPlayer.oddPlayer: \(model.filteredPlayer.oddPlayer)")
-                    
-                    setUpOddPlayer()
-                    placeOddRound()
-                } else {
-                    model.moveArrays()
-                    if model.players.count > 1 {
-                        startNewRound()
-                    } else {
-                        print("spriteNodeButtonPressed: YOU WON U VITCH")
-                    }
-                }
-            }
- 
         }
+        checkNumbersInWinnerArray(button: button)
+    }
+    
+    func matchingPosAndPlayer(p : Player) {
+        if let a = model.players.index(of: p) {
+            print("spriteNodeButtonPressed: name: \(p.name), model.players.index: \(a)")
+            let array = model.connectTwoPlayerss(i: a)
+            model.makePlayerUnavailable(array: array, player: p)
+        }
+    }
+    
+    //Checks if there is halv as many winners as players, and acts accordingly
+    func checkNumbersInWinnerArray(button : HandleButton) {
+        if model.players.count == model.winners.count * 2 {
+            fixButtons(button: button)
+            if model.filteredPlayer.oddPlayer == true {
+                setUpOddPlayer()
+                placeOddRound()
+                
+            } else {
+                whatNext()
+            }
+        }
+    }
+    
+    //What will happen next, either new round or game done
+    func whatNext() {
+        model.moveArrays()
+        for p in tempWinners {
+            model.players.append(p)
+        }
+        if model.players.count > 1 {
+            startNewRound()
+        } else {
+            alert()
+        }
+    }
+    
+    //Disable and color buttons from this/previous round
+    func fixButtons(button : HandleButton) {
+        button.disableOrEnableButtons(array: model.players, condition: false)
+        button.changeColorAllButtons(players: model.players, color: UIColor(red: 0/255.0, green: 174/255.0, blue: 191/255.0, alpha: 0.8))
+    }
+    
+    //---------------------------------------Other functions---------------------------------------------------
+    
+    //Handles position of camera
+    override func update(_ currentTime: TimeInterval) {
+        super.update(currentTime)
+        if let camera = cam {
+            camera.position = upperCenterPoint
+        }
+    }
+    
+    // play again with same players.
+    func playAgain() {
+        storeAndSavePlayers()
+        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Game")
+        UIApplication.topViewController()?.present(newViewController, animated: true, completion: nil)
+    }
+    
+    //Goes back to startview. #NOT DONE
+    func backToStart() {
+        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Start")
+        UIApplication.topViewController()?.present(newViewController, animated: true, completion: nil)
+        //FIX THIS
+    }
+    
+    //Moves around and saves players for playing again
+    func storeAndSavePlayers() {
+        model.moveAll()
+        var names : [String] = []
+        for p in model.originalPlayers {
+            names.append(p.name)
+        }
+        savePlayersString(players: names)
+    }
+    
+    //Alert that shows when one player won the game
+    func alert() {
+        let alertController = UIAlertController(title: "⚡️ \(model.winners[0].name) won! ⚡️", message: " Would you like to play again with the same set up?", preferredStyle: .alert)
+        let yesButton = UIAlertAction(title: "Of course", style: .default, handler: { (confirmView) in
+            self.playAgain()
+        })
+        let noButton = UIAlertAction(title: "Absolutely not", style: .default, handler: { (confirmView) in
+            self.backToStart()
+        })
+        
+        alertController.addAction(yesButton)
+        alertController.addAction(noButton)
+        self.viewController.present(alertController, animated: true, completion: nil)
     }
 }
 

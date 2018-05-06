@@ -20,12 +20,11 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
-
+    
     @IBAction func addPlayerButton(_ sender: Any) {
-        if nameInput.text!.isEmpty {
-            
+        if nameInput.text!.isEmpty || (nameInput.text?.contains(" "))! {
+
         } else {
             let player = Player(name: nameInput.text!)
             players.append(player)
@@ -54,27 +53,25 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     
+    //To change name  - For later purpose
+    /*
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row) was clicked and the item was \(players[indexPath.row].name)")
         let cell = tableView.dequeueReusableCell(withIdentifier: "NameCell")!
         
-        cell.textLabel?.text = "Bob"
+        //Change name of player
+        //cell.textLabel?.text = ""
         
-        //players[indexPath.row] = (cell.textLabel?.text!)!
         let p = players[indexPath.row]
         cell.textLabel?.text = p.name
         
         reload(tableView)
-        
     }
+    */
     
-    
-    // #warning fix this
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("Deleting \(players[indexPath.row])")
             players.remove(at: indexPath.item)
-            //reload(tableView)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
@@ -84,17 +81,16 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
         return false
     }
     
+    func alert() {
+        let alertController = UIAlertController(title: "There's no tournament in one", message: "Add some more teams or players!", preferredStyle: .alert)
+        let yesButton = UIAlertAction(title: "Alrighty then", style: .default, handler: { (confirmView) in
+            print("alert: I would like to play again with same players")
+        })
+        alertController.addAction(yesButton)
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        //print("Using canEditRowAt")
-        return true
-    }
- 
- 
-    func keyboardDown() {
-        //#warning press anywhere to make the keyboard disappear
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -106,25 +102,18 @@ class AddPlayersViewController: UIViewController, UITableViewDataSource, UITable
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
         if players.count > 1 {
             if segue.identifier == "StartTournament" {
-            
                 if let tournament = segue.destination as? TournamentViewController{
-                    
                     tournament.players = players
-                
                 } else {
                     print("Data not passed")
                 }
-            
             } else {
                 print("Identifier doesn't match, so no data sent")
-                
             }
         } else {
-            print("Too few players")
+            alert()
         }
     }
     

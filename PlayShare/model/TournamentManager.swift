@@ -9,6 +9,9 @@
 import Foundation
 
 class TournamentManager {
+    
+    //For later purpose
+    /*
     private init() {}
     static let shared = TournamentManager()
     
@@ -24,5 +27,6 @@ class TournamentManager {
             UserDefaults.standard.synchronize()
         }
     }
+    */
     
 }

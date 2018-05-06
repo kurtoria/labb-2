@@ -11,10 +11,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Start View Controller-->
+        <!--Start-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="StartViewController" customModule="PlayShare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Start" title="Start" id="BYZ-38-t0r" customClass="StartViewController" customModule="PlayShare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -44,7 +44,7 @@
         <!--Add Players View Controller-->
         <scene sceneID="RpC-nR-MFf">
             <objects>
-                <viewController id="fWi-sF-IkU" customClass="AddPlayersViewController" customModule="PlayShare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddPlayer" id="fWi-sF-IkU" customClass="AddPlayersViewController" customModule="PlayShare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="r0x-PO-t7o">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,6 +110,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dA8-5R-leZ" secondAttribute="trailing" constant="17" id="0iA-ze-b3X"/>
                             <constraint firstItem="Cr1-Zk-PQd" firstAttribute="centerX" secondItem="Rtf-o4-lVe" secondAttribute="centerX" id="1mf-Dt-meD"/>
                             <constraint firstItem="2o9-hu-qBf" firstAttribute="leading" secondItem="Cr1-Zk-PQd" secondAttribute="leading" id="BOL-Xd-ePs"/>
                             <constraint firstAttribute="trailing" secondItem="0Jg-Yc-P0H" secondAttribute="trailing" id="DTq-fq-pbc"/>
@@ -141,7 +142,7 @@
         <!--Tournament View Controller-->
         <scene sceneID="T7x-fM-MON">
             <objects>
-                <viewController id="GOZ-10-kcP" customClass="TournamentViewController" customModule="PlayShare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Game" id="GOZ-10-kcP" customClass="TournamentViewController" customModule="PlayShare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vpd-0V-xJI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -152,52 +153,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="elo-ZS-UAj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1708" y="134"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="7oT-zc-72X">
-            <objects>
-                <viewController id="hye-Gg-uG4" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qnL-0j-SKM">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <skView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4xs-Xt-FFa">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </skView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="wCc-u5-GMB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0Cf-oK-2Cf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2452" y="134"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="KLq-W1-mqa">
-            <objects>
-                <viewController id="rvo-st-NdC" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="NMJ-ho-LiW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ywB-5z-Npw" customClass="SKView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="S07-qs-7Xf"/>
-                    </view>
-                    <connections>
-                        <outlet property="skView" destination="ywB-5z-Npw" id="KOr-qQ-ZEv"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PXY-0O-tXT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2452" y="812"/>
         </scene>
     </scenes>
 </document>

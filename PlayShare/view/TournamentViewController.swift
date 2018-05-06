@@ -10,54 +10,53 @@ import UIKit
 import SpriteKit
 
 class TournamentViewController: UIViewController {
-    //@IBOutlet weak var skView: SKView!
     var tar : CGPoint?
     var players : [Player] = []
     static var seguedPlayers : [Player] = []
     
-    let skkView : SKView = {
+    let skView : SKView = {
         let view = SKView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        TournamentViewController.seguedPlayers = players
-        print("Number of segued players: \(TournamentViewController.seguedPlayers.count)")
         
+        TournamentViewController.seguedPlayers = players
+        setUpSavedPlayers()
         setupSKView()
     }
-    
 
     func setupSKView() {
-        view.addSubview(skkView)
-        skkView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        skkView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        skkView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        skkView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        view.addSubview(skView)
+        skView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        skView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        skView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        skView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         
         let scene = TournamentScene()
-        //scene.scaleMode = .fill
         scene.scaleMode = .resizeFill
-        skkView.presentScene(scene)
-        skkView.ignoresSiblingOrder = true
+        skView.presentScene(scene)
+        
+        //To make it possible to use alerts
+        scene.viewController = self
+        
+        skView.ignoresSiblingOrder = true
         scene.backgroundColor = UIColor.white
     }
     
-    /*
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            tar = touch.location(in: view)
-            if let t = tar {
-                print("TournamentViewController: x is \(t.x), y is \(t.y)")
+    func setUpSavedPlayers() {
+        if TournamentViewController.seguedPlayers.isEmpty {
+            let stringArray = getPlayersReturnString()
+            var newArray : [Player] = []
+            for name in stringArray {
+                let player = Player(name: name)
+                newArray.append(player)
             }
+            TournamentViewController.seguedPlayers = newArray
         }
     }
-    */
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

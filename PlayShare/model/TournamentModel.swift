@@ -15,7 +15,6 @@ class TournamentModel: NSObject {
     var players : [Player] = []
     var winners : [Player] = []
     var losers : [Player] = []
-    //var filteredPlayers : [Player] = []
     var filteredPlayer = Player(name: "")
     var oddRoundPlayers : [Player] = []
     var firstRound = true
@@ -68,55 +67,18 @@ class TournamentModel: NSObject {
     }
 
     func makePlayerUnavailable(array : [Player], player : Player) {
-        for w in winners {
-            print("makePlayerUnavailable: name in winnerArray: \(w.name)")
-        }
+
         for p in array {
             if p.wonGame {
                 addPlayerToWinner(p: p)
-                //checkMoved(array: players, winArray: winners)
-                for w in winners {
-                    print("makePlayerUnavailable: makePlayerUnavailable: WinnerCount: \(winners.count), name: \(w.name)")
-                }
             } else {
-                //Vad som händer med den andra spelaren som inte blev nertryckt
+                //What happens with the other player that didn't got thir buttons pushed down
                 addPlayerToLosers(p: p)
-                var button = HandleButton()
+                let button = HandleButton()
                 button.disableOrEnableButton(player: p, condition: false)
                 
-                print("makePlayerUnavailable: makePlayerUnavailable: LoserCount: \(losers.count), name: \(p.name)")
             }
         }
-    }
-    
-    func checkMoved(array : [Player], winArray : [Player]) {
-        let result = winArray.count * 2
-        if array.count == result {
-            print("checkMoved: winArray*2: \((winArray.count * 2)) = array.count: \(array.count)")
-            
-            //#warning put in movement
-            handleButtons.disableOrEnableButtons(array: players, condition: false)
-            moveArrays()
-            
-            
-            
-            
-        } else {
-            print("checkMoved: array.count ain't the same as winArray.count * 2")
-            print("checkMoved: Result: \((winArray.count * 2)) = \(array.count)")
-        }
-    }
-    
-    func moveArrays() {
-        players = []
-        for p in winners {
-            players.append(p)
-            print("moveArrays: PlayerArray: \(players.count)")
-        }
-        winners = []
-        print("moveArrays: Winners: \(winners.count)")
-        
-        
     }
     
     //--------------------ODD funcs-------------------------------------------
@@ -129,40 +91,63 @@ class TournamentModel: NSObject {
     
     func ifOddPlayers(players : Int) -> Bool {
         if players % 2 == 0 {
+            print("ifOddPlayers, true")
             return true
         } else {
+            print("ifOddPlayers, false")
             return false
         }
     }
     
-    func oddOrNot() {
-        if !ifOddPlayers(players: originalPlayers.count) {
-            print("oddOrNot: Not even!")
+    func oddOrNot(array : [Player]) {
+        var p = array
+        if !ifOddPlayers(players: p.count) {
 
-            if let last = originalPlayers.last {
+            if let last = p.last {
                 filteredPlayer = last
                 filteredPlayer.oddPlayer = true
-                print("oddOrNot: Filtered player: \(filteredPlayer.name), odd: \(filteredPlayer.oddPlayer)")
             }
-            originalPlayers.remove(at: originalPlayers.endIndex - 1)
+            p.remove(at: p.endIndex - 1)
         }
-        players = originalPlayers
-        print("oddOrNot: OriginalPlayers length: \(originalPlayers.count)")
+        players = p
     }
     
     func connectOddRound(randomPlayer : Player, filteredPlayer : Player) {
         oddRoundPlayers = connectTwoPlayers(p1: randomPlayer, p2: filteredPlayer)
-        
     }
-    
-    func moveOddArrays() {
+  
+    //---------------------------------------Moving, deleting, adding players---------------------------------------------------
+
+    func moveArrays() {
         players = []
         for p in winners {
             players.append(p)
-            print("moveOddArrays: PlayerArray: \(players.count)")
+            print("moveArrays: PlayerArray: \(players.count)")
+        }
+        print("moveArrays: Winners: \(winners.count)")
+        print("moveArrays: Losers: \(losers.count)")
+    }
+    
+    func moveAll() {
+        originalPlayers = []
+        for p in players {
+            originalPlayers.append(p)
+            print("Appended player: \(p.name)")
+        }
+        for l in losers {
+            originalPlayers.append(l)
+            print("Appended loser: \(l.name)")
+
         }
         winners = []
-        print("moveOddArrays: Winners in oddMove: \(winners.count)")
-        
+        players = []
+        losers = []
+    }
+    
+    func emptyWinners() {
+        winners = []
     }
 }
+
+
+
