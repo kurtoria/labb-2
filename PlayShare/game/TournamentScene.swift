@@ -33,10 +33,11 @@ class TournamentScene : SKScene, HandleButtonDelegate {
         oddY = 0.0
         
         
-        
+        /*
         if originalPlayers.isEmpty {
             originalPlayers = getPlayersReturn()
         }
+        */
         
         setupCameraNode()
         
